@@ -46,7 +46,7 @@ namespace BlockStreamSatAPI
             {
                 for (int i = 0; i < func.Params.Count; i++)
                 {
-                    TextBlock paramName = new TextBlock() { Text = func.Params[i].Name.Replace("Optional", "") + ":" };
+                    TextBlock paramName = new TextBlock() { Text = func.Params[i]. };
                     TextBox valueBox = new TextBox { Width = 150, Name = $"{func.Params[i]}", Margin = new Thickness(10, 0, 0, 0) };
                     if (func.Params[i].EndsWith("Optional"))
                     {
