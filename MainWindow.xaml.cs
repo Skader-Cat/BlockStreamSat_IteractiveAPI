@@ -7,6 +7,7 @@ using System.IO;
 using System;
 using System.Linq;
 using System.Windows.Media;
+using System.Windows.Documents;
 
 namespace BlockStreamSatAPI
 {
@@ -37,83 +38,75 @@ namespace BlockStreamSatAPI
         {
             currentFuncName.Text = $"Функция: {func.Name}";
             currentFuncDesc.Text = func.Desc;
-            funcReqParamsBox.Children.Clear();
-            funcOptParamsBox.Children.Clear();
-            sendButtonPlace.Children.Clear();
-            resultTextBlock.Text = "";
 
-            if (func.Params.Count != 0)
-            {
-                for (int i = 0; i < func.Params.Count; i++)
-                {
-                    TextBlock paramName = new TextBlock() { Text = func.Params[i]. };
-                    TextBox valueBox = new TextBox { Width = 150, Name = $"{func.Params[i]}", Margin = new Thickness(10, 0, 0, 0) };
-                    if (func.Params[i].EndsWith("Optional"))
-                    {
-                        funcOptParamsBox.Children.Add(paramName);
-                        funcOptParamsBox.Children.Add(valueBox);
-                    }
-                    else
-                    {
-                        funcReqParamsBox.Children.Add(paramName);
-                        funcReqParamsBox.Children.Add(valueBox);
-                    }
-                }
-            }
+            clearView();
 
-            if(funcReqParamsBox.Children.Count < 1)
-            {
-                funcReqParamsBox.Children.Add(new TextBlock { Text = "Параметров не принимает" });
-            }
-            if(funcOptParamsBox.Children.Count < 1)
-            {
-                funcOptParamsBox.Children.Add(new TextBlock { Text = "Параметров не принимает" });
-            }
+            setParamsToView(func);
+
 
             Button sendButton = new Button {Content = "Отправить запрос", Margin = new Thickness(5) };
             sendButton.Click += (sender, e) => {
-                if (funcReqParamsBox.Children.Count <= 2)
+                if (isAllRequiredFunctionsFilled(func))
                 {
-                    funcReqParamsBox.Background = Brushes.Red;
-                }
-                else
-                {
-                    funcReqParamsBox.Background = Brushes.White;
-                    ExecuteFunction(func, funcReqParamsBox, funcOptParamsBox);
+                    ExecuteFunction(func);
                 }
             };
             sendButtonPlace.Children.Add(sendButton);
 
         }
 
-        private void ExecuteFunction(FunctionModel func, StackPanel funcReqParamsBox, StackPanel funcOptParamsBox)
+        private bool isAllRequiredFunctionsFilled(FunctionModel func)
         {
-            if (func.Method == null)
+            foreach(var child in funcParamsBox.Children)
             {
-                restManager.extractMethodFromUrl(func);
+                if (child is TextBox)
+                {
+                    var param = func.Params.Find(x => x.Name == ((TextBox) child).Name && x.isRequired == true);
+                    if (param != null)
+                    {
+                        if (((TextBox) child).Text == "") //в будущем можно добавить валидацию данных в полях
+                        {
+                           ((TextBox) child).Background = Brushes.Red;
+                           resultTextBlock.Text = $"Ошибка. Не введён обязательный параметр {param.Name}";
+                           return false;
+                        }
+                    }
+                }
             }
+            return true;
+        }
 
-            if (funcReqParamsBox.Children.Count < 1)
+        private void setParamsToView(FunctionModel func)
+        {
+            if(func.Params.Count > 0)
             {
-                
+                for(int i = 0; i < func.Params.Count; i++)
+                {
+                    TextBox valueBox = new TextBox { Width = 300, Name = $"{func.Params[i].Name}", Margin = new Thickness(10, 0, 0, 0) };
+                    TextBlock paramName = new TextBlock() { Text = func.Params[i].Name };
+                    if (func.Params[i].isRequired == true)
+                    {
+                        paramName.Inlines.Add(new Run("*") {Foreground = Brushes.Red});
+                    }
+                    paramName.Inlines.Add(new Run(":"));
+
+                    funcParamsBox.Children.Add(paramName);
+                    funcParamsBox.Children.Add(valueBox);
+                }
+                isEmptyParameters.Visibility = Visibility.Collapsed;
             }
-
-            Dictionary<string, string> reqParameters = new Dictionary<string, string>();
-            Dictionary<string, string> optParameters = new Dictionary<string, string>();
-
-            if (funcReqParamsBox.Children.Count > 1)
+            else
             {
-                reqParameters = getParametersFromUserInput(funcReqParamsBox);
+                isEmptyParameters.Visibility = Visibility.Visible;
             }
+        }
 
-            if (funcOptParamsBox.Children.Count > 1)
-            {
-                optParameters = getParametersFromUserInput(funcOptParamsBox);
-            }
-
-
-            resultTextBlock.Text = restManager.request(func.URL, func.Method, reqParameters, optParameters);
-
+        private void clearView()
+        {
+            funcParamsBox.Children.Clear();
+            funcParamsBox.Children.Clear();
+            sendButtonPlace.Children.Clear();
+            resultTextBlock.Text = "";
         }
 
         private Dictionary<string, string> getParametersFromUserInput(StackPanel stackPanel)
@@ -152,22 +145,29 @@ namespace BlockStreamSatAPI
             }
         }
 
-        private void FunctionsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void FunctionButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private string getResourcesPath()
         {
             string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string parentDirectory = Directory.GetParent(appDirectory).Parent.Parent.FullName;
             string resourcesDirectory = Path.Combine(parentDirectory,"Resources");
             return resourcesDirectory;
+        }
+
+        private void ExecuteFunction(FunctionModel func)
+        {
+            if (func.Method == null)
+            {
+                restManager.extractMethodFromUrl(func);
+            }
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+
+            parameters = getParametersFromUserInput(funcParamsBox);
+
+
+            resultTextBlock.Text = restManager.request(func.URL, func.Method, parameters);
+
         }
     }
 }

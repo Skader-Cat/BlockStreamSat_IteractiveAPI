@@ -13,9 +13,12 @@ namespace BlockStreamSatAPI
 {
     public class Paramameter
     {
-        string Name = string.Empty;
-        string Value = string.Empty;
-        bool isOptional = false;
+        public string Name { get; set; } = string.Empty;
+
+        public bool isRequired { get; set; } = false;
+
+        [JsonIgnore]        
+        public string Value { get; set; } = string.Empty;
     }
 
     public class FunctionModel
@@ -32,12 +35,11 @@ namespace BlockStreamSatAPI
 
     internal class restManager
     {
-        public static string request(string url, string method, Dictionary<string, string> reqParameters, Dictionary<string, string> optParameters)
+        public static string request(string url, string method, Dictionary<string, string> parameters)
         {
             RestClient client = new RestClient("https://api.blockstream.space/testnet");
             RestRequest request;
-            var parameters = reqParameters.Concat(optParameters)
-                                            .ToDictionary(x => x.Key, x => x.Value);
+
             switch (method)
             {
                 case "GET":

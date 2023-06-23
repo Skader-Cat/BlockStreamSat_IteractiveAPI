@@ -42,17 +42,11 @@
                 <TextBlock Text="Параметры функции:" Margin="10"></TextBlock>
 
                 <UniformGrid Grid.Row="1" Grid.Column="0" Columns="1" Margin="50,0,0,0">
-                    <TextBlock>Обязательные поля:</TextBlock>
-                    <StackPanel x:Name="funcReqParamsBox" VerticalAlignment="Center">
+                    <TextBlock Text="Параметров не принимает" Visibility="Collapsed" x:Name="isEmptyParameters"></TextBlock>
+                    <StackPanel x:Name="funcParamsBox" VerticalAlignment="Center">
                     </StackPanel>
                 </UniformGrid>
 
-                <UniformGrid Grid.Row="1" Grid.Column="1" Columns="1" Margin="50,0,0,0">
-                    <TextBlock>Необязательные поля:</TextBlock>
-                    <StackPanel x:Name="funcOptParamsBox" VerticalAlignment="Center">
-                    </StackPanel>
-                </UniformGrid>
-                
             </Grid>
             <StackPanel x:Name="sendButtonPlace" Margin="10" Width="150">
                 <Button Content="Отправить запрос"></Button>
