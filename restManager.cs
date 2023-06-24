@@ -31,12 +31,30 @@ namespace BlockStreamSatAPI
         [JsonIgnore]
         public string Method { get; set; } = null;
         public List<Paramameter> Params { get; set; }
+
+
+        public static void extractMethodFromUrl(FunctionModel func)
+        {
+            func.URL = func.URL.Trim().Replace(" ", "");
+            string method = func.URL.Split('/').ToList()[0];
+            func.Method = method;
+            func.URL = func.URL.Replace(method, "");
+        }
+
+        internal void SetParamValue(string name, string v)
+        {
+            Params.Find(x => x.Name == name).Value = v;
+        }
     }
 
     internal class restManager
     {
-        public static string request(string url, string method, Dictionary<string, string> parameters)
+        public static string request(FunctionModel func)
         {
+            var method = func.Method;
+            var url = func.URL;
+            var parameters = func.Params;
+
             RestClient client = new RestClient("https://api.blockstream.space/testnet");
             RestRequest request;
 
@@ -61,9 +79,12 @@ namespace BlockStreamSatAPI
 
             if (parameters != null)
             {
-                foreach (KeyValuePair<string, string> kvp in parameters)
+                foreach (var param in parameters)
                 {
-                    request.AddParameter(kvp.Key, kvp.Value);
+                    if (isValidParameter(param))
+                    {
+                        request.AddParameter(param.Name, param.Value);
+                    }
                 }
             }
 
@@ -81,11 +102,13 @@ namespace BlockStreamSatAPI
             }
         }
 
-        public static void extractMethodFromUrl(FunctionModel func)
+        private static bool isValidParameter(Paramameter param)
         {
-            string method = func.URL.Split('/').ToList()[0];
-            func.Method = method;
-            func.URL = func.URL.Replace(method, "");
+            if(param.Value.Trim() == "")
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -61,12 +61,14 @@ namespace BlockStreamSatAPI
             {
                 if (child is TextBox)
                 {
-                    var param = func.Params.Find(x => x.Name == ((TextBox) child).Name && x.isRequired == true);
+                    var paramTextBox = (TextBox) child;
+                    paramTextBox.Background = null;
+                    var param = func.Params.Find(x => x.Name == paramTextBox.Name && x.isRequired == true);
                     if (param != null)
                     {
-                        if (((TextBox) child).Text == "") //в будущем можно добавить валидацию данных в полях
+                        if (paramTextBox.Text.Trim() == "") //в будущем можно добавить валидацию данных в полях
                         {
-                           ((TextBox) child).Background = Brushes.Red;
+                           paramTextBox.Background = Brushes.Red;
                            resultTextBlock.Text = $"Ошибка. Не введён обязательный параметр {param.Name}";
                            return false;
                         }
@@ -109,42 +111,6 @@ namespace BlockStreamSatAPI
             resultTextBlock.Text = "";
         }
 
-        private Dictionary<string, string> getParametersFromUserInput(StackPanel stackPanel)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            List<string> parameterNames = new List<string>();
-            List<string> parameterValues = new List<string>();
-
-            if (stackPanel.Children.Count > 1)
-            {
-
-                foreach (var child in stackPanel.Children)
-                {
-                    if (child is TextBox textBox)
-                    {
-                        string parameterValue = textBox.Text;
-                        parameterValues.Add(parameterValue);
-                    }
-                    if (child is TextBlock textBlock)
-                    {
-                        string parameterName = textBlock.Text;
-                        parameterName.Remove(parameterName.Length - 1);
-                        parameterNames.Add(parameterName);
-                    }
-                }
-
-                for (int i = 0; i < parameterNames.Count; i++)
-                {
-                    parameters.Add(parameterNames[i], parameterValues[i]);
-                }
-                return parameters;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         private string getResourcesPath()
         {
             string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -157,17 +123,26 @@ namespace BlockStreamSatAPI
         {
             if (func.Method == null)
             {
-                restManager.extractMethodFromUrl(func);
+                FunctionModel.extractMethodFromUrl(func);
             }
 
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
 
+            setParamValuesFromInputBox(func);
+            
+            resultTextBlock.Text = restManager.request(func);
 
-            parameters = getParametersFromUserInput(funcParamsBox);
+        }
 
-
-            resultTextBlock.Text = restManager.request(func.URL, func.Method, parameters);
-
+        private void setParamValuesFromInputBox(FunctionModel func)
+        {
+            foreach(var param in funcParamsBox.Children)
+            {
+                if(param is TextBox)
+                {
+                    var paramTextBox = (TextBox)param;
+                    func.SetParamValue(paramTextBox.Name, paramTextBox.Text.Trim());
+                }
+            }
         }
     }
 }
