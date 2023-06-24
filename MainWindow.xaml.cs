@@ -28,7 +28,9 @@ namespace BlockStreamSatAPI
         {
             foreach (var func in _functions)
             {
-                Button button = new Button { Content = func.Name, Margin = new Thickness(5) };
+                var buttonText = new TextBlock() { Text = func.Name, TextWrapping = TextWrapping.Wrap };
+                Button button = new Button { Content = buttonText, Margin = new Thickness(5)};
+                
                 button.Click += (sender, e) => { MakeViewForFunction(func); };
                 funcsName.Children.Add(button);
             }
@@ -130,7 +132,6 @@ namespace BlockStreamSatAPI
             setParamValuesFromInputBox(func);
             
             resultTextBlock.Text = restManager.request(func);
-
         }
 
         private void setParamValuesFromInputBox(FunctionModel func)

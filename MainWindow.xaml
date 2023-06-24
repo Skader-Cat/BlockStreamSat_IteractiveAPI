@@ -52,7 +52,9 @@
                 <Button Content="Отправить запрос"></Button>
             </StackPanel>
             <Label x:Name="resultLabel" Content="Результат:" Grid.Row="1" Grid.Column="0" />
-            <TextBlock x:Name="resultTextBlock" TextWrapping="Wrap"></TextBlock>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="resultTextBlock" TextWrapping="Wrap"></TextBlock>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </Window>
