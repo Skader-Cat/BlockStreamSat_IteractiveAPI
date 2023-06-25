@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Documents;
-using System.Resources;
-using System.Reflection;
 using System.Text;
 
 namespace BlockStreamSatAPI
