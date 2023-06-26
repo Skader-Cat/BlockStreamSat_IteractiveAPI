@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlockStreamSatAPI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="CryptoSat" Height="450" Width="800">
     <Grid RenderTransformOrigin="0.504,0.506">
 
         <Grid.ColumnDefinitions>
@@ -19,7 +19,7 @@
         </GroupBox>
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Column="1">
             <StackPanel x:Name="view">
                 <StackPanel Margin="10">
                     <TextBlock x:Name="currentFuncName" Text="Выберите функцию API"/>
@@ -55,7 +55,7 @@
 
                     <Label x:Name="resultLabel" Content="Результат:" Grid.Row="3"/>
 
-                    <TextBlock x:Name="resultTextBlock" TextWrapping="Wrap" Margin="25" Grid.Row="4"></TextBlock>
+                    <TextBox x:Name="resultTextBlock" TextWrapping="Wrap" Margin="25" Grid.Row="4" IsReadOnly="True" Visibility="Hidden"></TextBox>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

@@ -135,13 +135,8 @@ namespace BlockStreamSatAPI
 
             setParamValuesFromInputBox(func);
 
-            resultTextBlock.Text = prettifyResponse(RestManager.request(func));
-        }
-
-        private string prettifyResponse(string v)
-        {
-            Newtonsoft.Json.Linq.JToken parsedJson = Newtonsoft.Json.Linq.JToken.Parse(v);
-            return parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+            resultTextBlock.Text = RestManager.request(func);
+            resultTextBlock.Visibility = Visibility.Visible;
         }
 
         private void setParamValuesFromInputBox(FunctionModel func)

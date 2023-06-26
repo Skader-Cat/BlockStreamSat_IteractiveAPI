@@ -83,15 +83,16 @@ namespace BlockStreamSatAPI
 
             RestResponse response = client.Execute(request);
 
-            if (response.IsSuccessful)
+            if (response.IsSuccessful && response.Content != null)
             {
                 string content = response.Content;
-                return content;
+                return prettifyResponse(content);
             }
             else
             {
+                string responseContent = response.Content;
                 string errorMessage = response.ErrorMessage;
-                return errorMessage;
+                return prettifyResponse(responseContent + "\n" + errorMessage);
             }
         }
 
@@ -102,6 +103,12 @@ namespace BlockStreamSatAPI
                 return false;
             }
             return true;
+        }
+
+        private static string prettifyResponse(string v)
+        {
+            Newtonsoft.Json.Linq.JToken parsedJson = Newtonsoft.Json.Linq.JToken.Parse(v);
+            return parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
         }
     }
 }
