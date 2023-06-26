@@ -1,6 +1,6 @@
 # BlockStreamSatAPI
 
-Десктопная программа для интерактивного взаимодействия с тестовым API проекта BlockStreamSat 
+Десктопная программа для интерактивного взаимодействия с тестовым API проекта BlockStreamSat \n
   Ссылка на документацию: https://blockstream.com/satellite-api-documentation/
   Ссылка на уже собранную программу: 
 
