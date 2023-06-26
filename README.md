@@ -1,12 +1,16 @@
 # BlockStreamSatAPI
 
-Десктопная программа для интерактивного взаимодействия с тестовым API проекта BlockStreamSat    
-    Ссылка на документацию: https://blockstream.com/satellite-api-documentation/  
-    Ссылка на уже собранную программу: https://drive.google.com/drive/folders/1pWTGqqFEH8oVBz_woxcJNSwS3l8n_gvX?usp=sharing
+Десктопная программа для интерактивного взаимодействия с тестовым API проекта BlockStreamSat:
+<dl>
+    <dd>Ссылка на документацию: https://blockstream.com/satellite-api-documentation/</dd>
+    <dd>Ссылка на уже собранную программу: https://drive.google.com/drive/folders/1pWTGqqFEH8oVBz_woxcJNSwS3l8n_gvX?usp=sharing</dd>
+</dl>
 
 Программа написана на C# WPF и использует следующие библиотеки:
-  RestSharp - для выполнения http-запросов
-  Newtonsoft.Json - для парсинга JSON-файла конфигурации
+<dl>
+  <dd>RestSharp - для выполнения http-запросов.</dd>
+  <dd>Newtonsoft.Json - для парсинга JSON-файла конфигурации.</dd>
+</dl>
 
 
 Главное меню содержит список доступных в документации функций:
@@ -19,4 +23,8 @@
 Имеются обязательные и не обязательные параметры. Обязательные помечены красной звёздочкой, не обязательные ничем не помечены.
 Если не ввести обязательный параметр, то поле ввода подсветится красным и запрос не будет выполнен. 
 Не обязательные параметры можно пропускать.
+
+Результат выводится в следующем виде:
+    ![изображение](https://github.com/Skader-Cat/BlockStreamSatAPI/assets/65547922/ae33df25-3c55-4155-9bba-0c5bd35eeab5)
+
   
