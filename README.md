@@ -1,8 +1,8 @@
 # BlockStreamSatAPI
 
-Десктопная программа для интерактивного взаимодействия с тестовым API проекта BlockStreamSat \n
-  Ссылка на документацию: https://blockstream.com/satellite-api-documentation/
-  Ссылка на уже собранную программу: 
+Десктопная программа для интерактивного взаимодействия с тестовым API проекта BlockStreamSat    
+    Ссылка на документацию: https://blockstream.com/satellite-api-documentation/  
+    Ссылка на уже собранную программу: 
 
 Программа написана на C# WPF и использует следующие библиотеки:
   RestSharp - для выполнения http-запросов
