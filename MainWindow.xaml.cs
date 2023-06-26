@@ -128,12 +128,6 @@ namespace BlockStreamSatAPI
 
         private void ExecuteFunction(FunctionModel func)
         {
-            if (func.Method == null)
-            {
-                FunctionModel.extractMethodFromUrl(func);
-            }
-
-
             setParamValuesFromInputBox(func);
 
             resultTextBlock.Text = RestManager.request(func);

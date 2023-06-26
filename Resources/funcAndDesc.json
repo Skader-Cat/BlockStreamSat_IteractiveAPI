@@ -2,10 +2,14 @@
   {
     "Name": "Вывести заказ по UUID | Only auth",
     "Desc": "Вывести заказ по UUID. Обязательно предоставление соответствующего авторизационного токена, чтобы доказать, что он принадлежит вам.",
-    "URL": "GET/order/uuid",
+    "URL": "GET/order/:uuid",
     "Params": [
       {
         "Name": "uuid",
+        "IsRequired": true
+      },
+      {
+        "Name": "auth_token",
         "IsRequired": true
       }
     ]

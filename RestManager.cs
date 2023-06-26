@@ -27,12 +27,23 @@ namespace BlockStreamSatAPI
         public List<Paramameter> Params { get; set; }
 
 
-        public static void extractMethodFromUrl(FunctionModel func)
+        internal static void extractMethodFromUrl(FunctionModel func)
         {
-            func.URL = func.URL.Trim().Replace(" ", string.Empty);
+            func.URL = func.URL.Trim().Replace(" ", "");
             string method = func.URL.Split('/').ToList()[0];
             func.Method = method;
-            func.URL = func.URL.Replace(method, string.Empty);
+            func.URL = func.URL.Replace(method, "");
+        }
+
+        internal void setParametersToURL() //https://api.blockstream.space/testnet/order/:uuid  -> заменит :uuid на значение этого параметра
+        {
+            foreach(var param in Params)
+            {
+                if (this.URL.Contains(param.Name))
+                {
+                    this.URL = this.URL.Replace($":{param.Name}", param.Value);
+                }
+            }
         }
 
         internal void SetParamValue(string name, string v)
@@ -45,9 +56,13 @@ namespace BlockStreamSatAPI
     {
         public static string request(FunctionModel func)
         {
+            func.setParametersToURL();
+            FunctionModel.extractMethodFromUrl(func);
+
             var method = func.Method;
             var url = func.URL;
             var parameters = func.Params;
+
 
             RestClient client = new RestClient("https://api.blockstream.space/testnet");
             RestRequest request;
