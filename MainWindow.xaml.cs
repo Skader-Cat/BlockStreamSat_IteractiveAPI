@@ -114,7 +114,8 @@ namespace BlockStreamSatAPI
             funcParamsBox.Children.Clear();
             funcParamsBox.Children.Clear();
             sendButtonPlace.Children.Clear();
-            resultTextBlock.Text = "";
+            resultTextBlock.Text = string.Empty;
+            resultTextBlock.Visibility = Visibility.Hidden;
         }
 
         private string getResourcesPath()

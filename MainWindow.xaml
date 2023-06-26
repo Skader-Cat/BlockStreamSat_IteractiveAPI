@@ -19,7 +19,7 @@
         </GroupBox>
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Column="1">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
             <StackPanel x:Name="view">
                 <StackPanel Margin="10">
                     <TextBlock x:Name="currentFuncName" Text="Выберите функцию API"/>
@@ -45,18 +45,21 @@
 
                     <UniformGrid Grid.Row="1" Grid.Column="0" Columns="1" Margin="50,0,0,0">
                         <TextBlock Text="Параметров не принимает" Visibility="Collapsed" x:Name="isEmptyParameters"></TextBlock>
-                        <StackPanel x:Name="funcParamsBox" VerticalAlignment="Center">
+                        <StackPanel x:Name="funcParamsBox" VerticalAlignment="Stretch">
                         </StackPanel>
                     </UniformGrid>
 
                     <StackPanel x:Name="sendButtonPlace" Margin="10" Width="150" Grid.Row="2">
                         <Button Content="Отправить запрос"></Button>
                     </StackPanel>
-
-                    <Label x:Name="resultLabel" Content="Результат:" Grid.Row="3"/>
-
-                    <TextBox x:Name="resultTextBlock" TextWrapping="Wrap" Margin="25" Grid.Row="4" IsReadOnly="True" Visibility="Hidden"></TextBox>
                 </Grid>
+
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <StackPanel  Margin="10,0,0,0" Grid.Row="3" Grid.Column="2">
+                        <Label x:Name="resultLabel" Content="Результат:" Grid.Row="3" Margin="0,0,20,0"/>
+                        <TextBox x:Name="resultTextBlock" TextWrapping="Wrap" IsReadOnly="True" Visibility="Hidden"></TextBox>
+                    </StackPanel>
+                </ScrollViewer>
             </StackPanel>
         </ScrollViewer>
     </Grid>

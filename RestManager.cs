@@ -14,6 +14,7 @@ namespace BlockStreamSatAPI
         public string Value { get; set; } = string.Empty;
     }
 
+
     public class FunctionModel
     {
         public string Name { get; set; }
@@ -28,10 +29,10 @@ namespace BlockStreamSatAPI
 
         public static void extractMethodFromUrl(FunctionModel func)
         {
-            func.URL = func.URL.Trim().Replace(" ", "");
+            func.URL = func.URL.Trim().Replace(" ", string.Empty);
             string method = func.URL.Split('/').ToList()[0];
             func.Method = method;
-            func.URL = func.URL.Replace(method, "");
+            func.URL = func.URL.Replace(method, string.Empty);
         }
 
         internal void SetParamValue(string name, string v)
@@ -98,7 +99,7 @@ namespace BlockStreamSatAPI
 
         private static bool isValidParameter(Paramameter param)
         {
-            if (param.Value.Trim() == "")
+            if (param.Value.Trim() == string.Empty)
             {
                 return false;
             }
