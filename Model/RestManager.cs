@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using RestSharp;
 
-namespace BlockStreamSatAPI
+namespace StreamBlockSat_InterAPI.Model
 {
     public class Paramameter
     {
@@ -37,13 +38,19 @@ namespace BlockStreamSatAPI
 
         internal void setParametersToURL() //https://api.blockstream.space/testnet/order/:uuid  -> заменит :uuid на значение этого параметра
         {
-            foreach(var param in Params)
+            foreach (var param in Params)
             {
-                if (this.URL.Contains(param.Name))
+                if (URL.Contains(param.Name))
                 {
-                    this.URL = this.URL.Replace($":{param.Name}", param.Value);
+                    URL = URL.Replace($":{param.Name}", param.Value);
                 }
             }
+        }
+
+        internal static string getFuncAndDescJsonFromResources()
+        {
+            string textFuncAndDesc = Encoding.UTF8.GetString(StreamBlockSat_InterAPI.Properties.Resources.funcAndDesc);
+            return textFuncAndDesc;
         }
 
         internal void SetParamValue(string name, string v)

@@ -6,6 +6,9 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Documents;
 using System.Text;
+using StreamBlockSat_InterAPI.Model;
+using StreamBlockSat_InterAPI.Controller;
+using System.Security.Cryptography;
 
 namespace BlockStreamSatAPI
 {
@@ -16,16 +19,10 @@ namespace BlockStreamSatAPI
         {
             InitializeComponent();
 
-            _functions = JsonConvert.DeserializeObject<List<FunctionModel>>(getFuncAndDescJsonFromResources());
+            _functions = JsonConvert.DeserializeObject<List<FunctionModel>>(FunctionModel.getFuncAndDescJsonFromResources());
 
             setFunctions(_functions);
 
-        }
-
-        private string getFuncAndDescJsonFromResources()
-        {
-            string textFuncAndDesc = Encoding.UTF8.GetString(StreamBlockSat_InterAPI.Properties.Resources.funcAndDesc);
-            return textFuncAndDesc;
         }
 
         private void setFunctions(List<FunctionModel> functions)
@@ -52,36 +49,12 @@ namespace BlockStreamSatAPI
 
             Button sendButton = new Button { Content = "Отправить запрос", Margin = new Thickness(5) };
             sendButton.Click += (sender, e) => {
-                if (isAllRequiredFunctionsFilled(func))
+                if (Controller.isAllRequiredFunctionsFilled(func, funcParamsBox, resultTextBlock))
                 {
                     ExecuteFunction(func);
                 }
             };
             sendButtonPlace.Children.Add(sendButton);
-
-        }
-
-        private bool isAllRequiredFunctionsFilled(FunctionModel func)
-        {
-            foreach (var child in funcParamsBox.Children)
-            {
-                if (child is TextBox)
-                {
-                    var paramTextBox = (TextBox)child;
-                    paramTextBox.Background = null;
-                    var param = func.Params.Find(x => x.Name == paramTextBox.Name && x.isRequired == true);
-                    if (param != null)
-                    {
-                        if (paramTextBox.Text.Trim() == "") //в будущем можно добавить валидацию данных в полях
-                        {
-                            paramTextBox.Background = Brushes.Red;
-                            resultTextBlock.Text = $"Ошибка. Не введён обязательный параметр {param.Name}";
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
         }
 
         private void setParamsToView(FunctionModel func)
@@ -118,32 +91,11 @@ namespace BlockStreamSatAPI
             resultTextBlock.Visibility = Visibility.Hidden;
         }
 
-        private string getResourcesPath()
-        {
-            string appDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-            string parentDirectory = Directory.GetParent(appDirectory).Parent.Parent.FullName;
-            string resourcesDirectory = Path.Combine(parentDirectory, "Resources");
-            return resourcesDirectory;
-        }
-
         private void ExecuteFunction(FunctionModel func)
         {
-            setParamValuesFromInputBox(func);
-
+            Controller.setParamValuesFromInputBox(func, funcParamsBox);
             resultTextBlock.Text = RestManager.request(func);
             resultTextBlock.Visibility = Visibility.Visible;
-        }
-
-        private void setParamValuesFromInputBox(FunctionModel func)
-        {
-            foreach (var param in funcParamsBox.Children)
-            {
-                if (param is TextBox)
-                {
-                    var paramTextBox = (TextBox)param;
-                    func.SetParamValue(paramTextBox.Name, paramTextBox.Text.Trim());
-                }
-            }
         }
     }
 }
