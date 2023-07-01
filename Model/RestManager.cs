@@ -33,7 +33,6 @@ namespace StreamBlockSat_InterAPI.Model
             func.URL = func.URL.Trim().Replace(" ", "");
             string method = func.URL.Split('/').ToList()[0];
             func.Method = method;
-            func.URL = func.URL.Replace(method, "");
         }
 
         internal void setParametersToURL() //https://api.blockstream.space/testnet/order/:uuid  -> заменит :uuid на значение этого параметра
@@ -67,7 +66,7 @@ namespace StreamBlockSat_InterAPI.Model
             FunctionModel.extractMethodFromUrl(func);
 
             var method = func.Method;
-            var url = func.URL;
+            var url = func.URL.Replace(method, "");
             var parameters = func.Params;
 
 
