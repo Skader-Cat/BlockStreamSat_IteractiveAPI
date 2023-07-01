@@ -14,17 +14,19 @@
 
 
 Главное меню содержит список доступных в документации функций:
-  ![изображение](https://github.com/Skader-Cat/BlockStreamSatAPI/assets/65547922/c309a13b-daa3-4132-8c32-93d350fb322a)
+  ![изображение](https://github.com/Skader-Cat/BlockStreamSat_IteractiveAPI/assets/65547922/8c82b271-b2bb-445e-b315-e24833171cf6)
 
 При нажатии на кнопку, соответствующую функции, появляется окно с информацией, необходимыми параметрами, 
 кнопкой запроса и возможностью выполнить запрос с использованием переданных параметров
-  ![изображение](https://github.com/Skader-Cat/BlockStreamSatAPI/assets/65547922/407a54c6-25a6-4a45-a86f-f88cd804c13e)
+![изображение](https://github.com/Skader-Cat/BlockStreamSat_IteractiveAPI/assets/65547922/b3784651-e5d6-43dd-9c15-76bd512c33b4)
+
 
 Имеются обязательные и не обязательные параметры. Обязательные помечены красной звёздочкой, не обязательные ничем не помечены.
 Если не ввести обязательный параметр, то поле ввода подсветится красным и запрос не будет выполнен. 
 Не обязательные параметры можно пропускать.
 
 Результат выводится в следующем виде:
-    ![изображение](https://github.com/Skader-Cat/BlockStreamSatAPI/assets/65547922/ae33df25-3c55-4155-9bba-0c5bd35eeab5)
+![изображение](https://github.com/Skader-Cat/BlockStreamSat_IteractiveAPI/assets/65547922/a5c0dc78-91f8-4b64-b013-9aeeb86bbd49)
+
 
   
